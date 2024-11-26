@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getxstatepractice/counter_app/view.dart';
 
 import 'package:getxstatepractice/todo_app/view.dart';
 
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: TodoApp(),
+      home: const CounterApp(),
     );
   }
 }
