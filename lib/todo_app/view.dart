@@ -6,6 +6,8 @@ class TodoApp extends StatelessWidget {
   final TodoController todoController = Get.put(TodoController());
   final TextEditingController text = TextEditingController();
 
+  TodoApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
