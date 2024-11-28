@@ -18,6 +18,12 @@ class WeatherController extends GetxController {
 
   final WeatherService weatherService = WeatherService();
 
+  @override
+  void onInit() {
+    super.onInit();
+    fetchWeather(33.6844, 73.0479);
+  }
+
   Future<void> fetchWeather(double lat, double lon) async {
     try {
       isLoading.value = true;
