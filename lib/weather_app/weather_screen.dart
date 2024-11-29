@@ -8,6 +8,9 @@ class Weather extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final WeatherController weatherController = Get.put(WeatherController());
+    final TextEditingController lonController = TextEditingController();
+    final TextEditingController latController = TextEditingController();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Weather.'),
@@ -33,25 +36,81 @@ class Weather extends StatelessWidget {
                 child: const CircularProgressIndicator());
           }
           final data = weatherController.weatherData.value;
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                'Temperature',
-                style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w500),
-              ),
-              Text(
-                '${data.temperature.toString()} `C',
-                style: const TextStyle(
-                    fontSize: 18.0, fontWeight: FontWeight.bold),
-              ),
-              Row(
-                children: [
-                  const Text('Humidity: '),
-                  Text(data.humidity.toString())
-                ],
-              )
-            ],
+          return Padding(
+            padding: const EdgeInsets.all(25.0),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 5,
+                      child: TextField(
+                        decoration: const InputDecoration(
+                            label: Text('Longitude'),
+                            prefixIcon: Icon(Icons.directions_boat_rounded),
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(7.0)))),
+                        controller: lonController,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 5.0,
+                    ),
+                    Expanded(
+                      flex: 5,
+                      child: TextField(
+                        decoration: const InputDecoration(
+                            label: Text('latitude'),
+                            prefixIcon: Icon(Icons.directions_bike),
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(7.0)))),
+                        controller: latController,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 5.0,
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: IconButton(
+                        onPressed: () {
+                          if (lonController.text.isEmpty &&
+                              latController.text.isEmpty) {
+                            Get.snackbar(
+                                'Warning!', 'Fill the required fields');
+                          } else {
+                            weatherController.fetchWeatherFromCity(
+                                double.parse(lonController.text),
+                                double.parse(latController.text));
+                          }
+                        },
+                        icon: const Icon(
+                          Icons.check,
+                          color: Colors.green,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                const Text(
+                  'Temperature',
+                  style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w500),
+                ),
+                Text(
+                  '${data.temperature.toString()} `C',
+                  style: const TextStyle(
+                      fontSize: 18.0, fontWeight: FontWeight.bold),
+                ),
+                Row(
+                  children: [
+                    const Text('Humidity: '),
+                    Text(data.humidity.toString())
+                  ],
+                )
+              ],
+            ),
           );
         }),
       ),
